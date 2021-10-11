@@ -72,7 +72,7 @@ DockerのハンズオンとKubernetesのハンズオンは別々に構成され�
 
 環境は専用の環境となりますので、ご自身で試したい内容などもぜひ試してみてください。  
 
-[Dockerのハンズオンを始める方はこちら](hyper-v/docker_almalinux/README.md)
+[Dockerのハンズオンを始める方はこちら](hyper-v/docker_almalinux/README.md)  
 [Kubernetesのハンズオンを始める方はこちら](hyper-v/k8s/README.md)  
 
 

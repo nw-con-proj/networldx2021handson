@@ -89,7 +89,8 @@ kubeadmを利用してKubernetesクラスタを作成しています。
 VMはすでにHyper-Vに登録されています。デスクトップ上にハンズオンに必要なVMを起動させるためのスクリプトを用意していますので、スクリプトをダブルクリックして実行します。  
 
 - k8sハンズオン環境起動.ps1  
-  - 少し時間がかかります。 
+  - 少し時間がかかります。  
+  
 ![](../../img/2021-10-01_11h57_09.png)  
 
 デスクトップ上にある*Hyper-V Manager*のショートカットを開き、**docker_almalinux_default_**で始めるVMが起動していることを確認します。  
@@ -107,7 +108,10 @@ puttyやTeraterm等でSSH接続が可能です。今回はTeratermで接続し�
 
 sudoでパスワードを求められた場合もパスワードは **vagrant** です。
 
- 
+![](../../img/2021-10-01_12h03_16.png)  
+![](../../img/2021-10-01_12h03_36.png)  
+![](../../img/2021-10-01_12h03_51.png)  
+![](../../img/2021-10-01_12h04_01.png)  
 
 ## KubectlからKubernetesクラスタを確認してみる
 まずは最初にKubectlを使って、Kubernetesクラスタを確認してみます。  
@@ -260,7 +264,7 @@ Events:
 > どうしても指定のノードに作成したい要件がある場合は ラベルをつかった方法やアフィニティ/アンチアフィニティルールを利用します。  
 
 ### Podのログを確認してみる  
-KubernetesではPodが起動する際に失敗している場合は、*kubectl describe pod {pod_name}*で状況を確認します。
+KubernetesではPodが起動する際に失敗している場合は、*kubectl describe pod {pod_name}* で状況を確認します。
 Podが動作しているにもかかわらず、正常な動作になっていない場合は、Podのログを確認します。  
 
 `kubectl logs hello-world`  
@@ -296,6 +300,7 @@ For more examples and ideas, visit:
 削除は *kubectl delete pod {pod_name}* で実行します。  
 
 `kubectl delete pod hello-world`   
+
 実行後に `kubectl get pod`でPodが削除されていることを確認します。  
 
 ```
@@ -308,9 +313,9 @@ No resources found in default namespace.
 ## マニフェストを使ったPodの実行  
 Kubernetesではマニフェストというファイルを作成し、それをKubernetes APIに読み込ませることでPodなどを作成することが基本的な利用方法になります。  
 ここではマニフェストを作成し、Podを実行してみます。  
-※サンプルコードを実行し、実際のマニフェストでこうやって動くのかというものを体験してもらえばOKです。マニフェストの書き方の詳細はWebや書籍等で調べていただくか、プロジェクトまでお問い合わせください。  
+※サンプルコードを実行し、実際のマニフェストでこうやって動くのかというものを体験してください。  
 
-> マニフェストとは
+> マニフェストとは  
 > Kubernetesのオブジェクトを生成するために、そのオブジェクトに対応するAPIのバージョン、メタ情報、使用などを YAML形式やJSON形式で記述したファイルのことです。  
 
 

@@ -50,6 +50,7 @@
     - [MySQLにデータを書き込んでみる](#mysqlにデータを書き込んでみる)
     - [コンテナが再作成されてもデータが残っている確認してみる](#コンテナが再作成されてもデータが残っている確認してみる)
   - [ハンズオンが終わったら](#ハンズオンが終わったら)
+- [最後までありがとうございました！](#最後までありがとうございました)
 
 ## ハンズオン環境の構成  
 1Master,3Workerの構成になっています。  
@@ -1447,18 +1448,18 @@ mysql-svc    NodePort    10.97.170.67   <none>        3306:30006/TCP   15h
 
   `show databases;` を実行してDatabaseを確認します。  
 
-```
-mysql> show databases;
-+---------------------+
-| Database            |
-+---------------------+
-| information_schema  |
-| #mysql50#lost+found |
-| mysql               |
-| performance_schema  |
-+---------------------+
-4 rows in set (0.00 sec)
-```
+  ```
+  mysql> show databases;
+  +---------------------+
+  | Database            |
+  +---------------------+
+  | information_schema  |
+  | #mysql50#lost+found |
+  | mysql               |
+  | performance_schema  |
+  +---------------------+
+  4 rows in set (0.00 sec)
+  ```
 
 - サンプルデータを書き込んでみる  
   `source world_x.sql;` を実行します。エラーがでますが、何らかのデータを書きたいだけなので無視します。  
@@ -1480,50 +1481,44 @@ mysql> show databases;
 Podを停止して再作成されたあとにMySQL DB上にサンプルデータが残っている確認してみます。  
 
 - 現在のMySQLのPodを確認します。 `kubectl get pod -o wide`  
-```
-[root@master world_x-db]# kubectl get po -o wide
-NAME                            READY   STATUS    RESTARTS   AGE   IP             NODE                     NOMINATED NODE   READINESS GATES
-mysql-deploy-6557f867d5-qt8nt   1/1     Running   0          24m   10.244.3.203   worker-2.training.home   <none>           <none>
-```
+  ```
+  [root@master world_x-db]# kubectl get po -o wide
+  NAME                            READY   STATUS    RESTARTS   AGE   IP             NODE                     NOMINATED NODE   READINESS GATES
+  mysql-deploy-6557f867d5-qt8nt   1/1     Running   0          24m   10.244.3.203   worker-2.training.home   <none>           <none>
+  ```
 
 - Podを停止します。 Pod nameを指定する必要があるので、上記の結果を例にコマンドを実行します。  
   `kubectl delete pod mysql-deploy-6557f867d5-qt8nt`  
 
-```
-[root@master world_x-db]# kubectl delete po mysql-deploy-6557f867d5-qt8nt
-pod "mysql-deploy-6557f867d5-qt8nt" deleted
-```
+  ```
+  [root@master world_x-db]# kubectl delete po mysql-deploy-6557f867d5-qt8nt
+  pod "mysql-deploy-6557f867d5-qt8nt" deleted
+  ```
 
 - 再作成されたPodが稼働していることを確認します。  `kubectl get pod -o wide`   
   
-```
-[root@master world_x-db]# kubectl get po -o wide
-NAME                            READY   STATUS    RESTARTS   AGE   IP             NODE                     NOMINATED NODE   READINESS GATES
-mysql-deploy-6557f867d5-w5z8b   1/1     Running   0          87s   10.244.13.13   worker-1.training.home   <none>           <none>
-```
+  ```
+  [root@master world_x-db]# kubectl get po -o wide
+  NAME                            READY   STATUS    RESTARTS   AGE   IP             NODE                     NOMINATED NODE   READINESS GATES
+  mysql-deploy-6557f867d5-w5z8b   1/1     Running   0          87s   10.244.13.13   worker-1.training.home   <none>           <none>
+  ```
 
 - MySQLにログインしてデータが存在していることを確認します。  
-```
-mysql -u root -h 192.168.0.100 -P 30006 -p
-# パスワードは password
-show databases;
-USE world_x;
-show tables;
-SELECT * FROM country LIMIT 10;
-```
+  ```
+  mysql -u root -h 192.168.0.100 -P 30006 -p
+  # パスワードは password
+  show databases;
+  USE world_x;
+  show tables;
+  SELECT * FROM country LIMIT 10;
+  ```
 
 DatabaseやTable、Tableの値が表示されることを確認します。  
 
 
 ## ハンズオンが終わったら  
 Azure Lab Serviceで無操作の場合は自動的にシャットダウンされるように設定されていますので、なにも実施しなくても問題ありません。
-環境を削除する場合は **Git bash** を使って下記コマンドを実行します。  
-
-```
-cd /c/vm/docker-k8s-training/hyper-v/k8s
-vagrant destroy -f
-```
+環境を停止する場合はデスクトップ上においてある各環境停止用のスクリプトを実行してください。   
 
 
-
-以上
+# 最後までありがとうございました！

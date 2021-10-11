@@ -506,14 +506,15 @@ No resources found in default namespace.
 - 要求を待ち続ける
 - 水平スケールができる
 - 異常終了したら再起動すればよい   
-ようなアプリケーションに適したものです。  
+  
+のような条件で稼働させることができるアプリケーションに適したものです。  
 フロントエンドのWebサーバーなどはこれを使うことで負荷状況に応じて水平スケールすることやローリングアップデートを行うことなども可能です。  
 実運用時にはPod単体で動かすのではなく、Deploymentやその他のコントローラーを使ってPodを展開することになります。  
 
 ### Deploymentのマニフェストを作成  
 
 下記のファイルをvi やvim などで作成してみてください。  
-エディタが必要であれば、 `dnf install {エディタ名}` でインストールしていただいてもOKです。  
+エディタが必要であれば、 `dnf install {エディタ名}` でインストールしていただいても問題ありません。    
 
 - ファイル名: nginx_deployment.yaml  
 ```
@@ -918,7 +919,7 @@ Podにアクセスするには**サービス**を作成する必要がありま�
 
 各々の詳細は[こちら](https://kubernetes.io/ja/docs/concepts/services-networking/service/)から確認してください。  
 
-今回は **NodePort**と **LoadBalancer** を使ったサービス公開と試してみます。  
+今回は **NodePort**と **LoadBalancer** を使ったサービス公開を試してみます。  
 対象のPodは前回利用したNginxをそのまま利用します。  
 
 ### NodePortのマニフェストを作ってみる  
@@ -963,7 +964,7 @@ ServiceのマニフェストのSelector部分 **app: nginx** とPodもしくはP
 
 
 ### NodePortのサービスを展開してみる  
-*kubectl apply -f*を使って、マニフェストを適用します。  
+*kubectl apply -f* を使って、マニフェストを適用します。  
 
 `kubectl apply -f nginx_service.yaml`
 
@@ -983,10 +984,11 @@ NodePortを使った場合、接続先のIPは Kubernetesクラスタのどこ�
 Kubernetesクラスタのすべてのノードの **30080** にアクセスしてみます。  
 
 - ホストOS（Windows）上のWebブラウザを開き、下記にアクセスしてみます。  
-  `http://192.168.0.100:30080`
-  `http://192.168.0.101:30080`
-  `http://192.168.0.102:30080`
-  `http://192.168.0.103:30080`
+  `http://192.168.0.100:30080`  
+  `http://192.168.0.101:30080`  
+  `http://192.168.0.102:30080`  
+  `http://192.168.0.103:30080`  
+
 
   ![](../../img/2021-06-22_10h37_37.png)
   ![](../../img/2021-06-22_10h37_57.png)
@@ -1023,8 +1025,9 @@ nginx-deploy-7d776cc564-dqlrw
 [vagrant@master ~]$
 ```
 
-複数回アクセスしたら ctrl+Cで終了します。  
+ 
 別のPodにアクセスしていることが確認できます。  
+複数回アクセスしたら ctrl+Cで終了します。  
 
 
 ### LoadBalancerのサービスを使ってみる  
@@ -1293,7 +1296,7 @@ kubectl apply -f rook_ceph.yaml
 ```
 
 ### Rook/Cephを使ったMySQLのデプロイ  
-Deployment コントローラーを使って、MySQLをデプロイし、ストレージとしてPortworxを使ってみます。  
+Deployment コントローラーを使って、MySQLをデプロイし、ストレージとして Rook/Ceph を使ってみます。  
 
 ```
 cat <<EOF > mysql-sample.yaml
@@ -1376,6 +1379,7 @@ kubectl apply -f mysql-sample.yaml
 >         persistentVolumeClaim:
 >           claimName: mysql-sample-pv-claim
 > EOF
+
 [root@master kubernetes]# kubectl apply -f mysql-sample.yaml
 service/mysql-svc created
 persistentvolumeclaim/mysql-sample-pv-claim created
@@ -1409,7 +1413,7 @@ NAME                    STATUS   VOLUME                                     CAPA
 mysql-sample-pv-claim   Bound    pvc-192fa93a-a352-4953-8b9a-698a56db0016   3Gi        RWO            rook-ceph-block   5m44s
 ```
 
-- Service
+- Service   
   `kubectl get svc`  
 ```
 [root@master kubernetes]# kubectl get svc
@@ -1423,15 +1427,17 @@ mysql-svc    NodePort    10.97.170.67   <none>        3306:30006/TCP   15h
 
 - mysql client のインストール  
 
-  Masterサーバ上で `dnf install -y mysql.x86_64` を実行することでインストールされます。 
+  Masterサーバ上で下記コマンドを実行することでインストールされます。 
+
+  `dnf install -y mysql.x86_64` 
 
 - サンプルデータをダウンロードしておきます。  
-```
-cd ~/ 
-curl -LO https://downloads.mysql.com/docs/world_x-db.tar.gz
-tar -zxvf world_x-db.tar.gz
-cd world_x-db
-```
+  ```
+  cd ~/ 
+  curl -LO https://downloads.mysql.com/docs/world_x-db.tar.gz
+  tar -zxvf world_x-db.tar.gz
+  cd world_x-db
+  ```
 
 - mysql login
 

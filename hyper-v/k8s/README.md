@@ -5,11 +5,10 @@
   - [目次](#目次)
   - [ハンズオン環境の構成](#ハンズオン環境の構成)
     - [CRI-O (くらいお)](#cri-o-くらいお)
-  - [環境の立ち上げ](#環境の立ち上げ)
     - [環境の作成方法](#環境の作成方法)
     - [ハンズオン用のVM](#ハンズオン用のvm)
+  - [環境の立ち上げ](#環境の立ち上げ)
   - [VMへのログインと確認](#vmへのログインと確認)
-    - ["vagrant ssh master"によるSSH接続について](#vagrant-ssh-masterによるssh接続について)
   - [KubectlからKubernetesクラスタを確認してみる](#kubectlからkubernetesクラスタを確認してみる)
     - [クラスタの状態確認](#クラスタの状態確認)
   - [CLIによるPodの実行](#cliによるpodの実行)
@@ -72,33 +71,9 @@
 Dockerの代わりに利用できる軽量のコンテナランタイム。
 1.20.0以降はDockerは非推奨になるので変更していますが、Kubernetesの使い勝手的には変わりません。  
 
-
-## 環境の立ち上げ  
-vagrantを使って、環境を立ち上げます。  
-また、Powershellだと（作った人的に）都合が悪かったので、**GitBash** を使って作業を行います。
-
-```
-export VAGRANT_DEFAULT_PROVIDER=hyperv
-export VAGRANT_EXPERIMENTAL="disks"
-mkdir /c/vm
-cd /c/vm/
-git clone https://github.com/nw-con-proj/docker-k8s-training.git
-cd docker-k8s-training/hyper-v/k8s
-vagrant up
-```
-
-VMが作成されるまで20分程度待ちます。  
-まれに作成中にエラーが発生する場合があります。特に **master**を構成している際にメモリ不足で失敗しているようなエラーがでます。
-この場合は、一度 `vagrant destroy -f` を実行し、環境を消した後に再度 `vagrant up` を実行してください。  
-
-> プラグインのインストール画面が表示された場合、**y**を入力しインストール後、再度 `vagrant up` を実行します。
-> VMが作成されるまで5分程度待ちます。  
-> `Install local plugins (Y/N) [N]: y`
-
-
 ### 環境の作成方法  
 kubeadmを利用してKubernetesクラスタを作成しています。  
-実行しているコマンド等は Scripts フォルダのスクリプトを確認してください。  
+今回はすでに作成された状態からのスタートです。
 
 ### ハンズオン用のVM  
 下記のVMが実行されます。操作は **master** から実行します。  
@@ -110,9 +85,19 @@ kubeadmを利用してKubernetesクラスタを作成しています。
 |worker-2|192.168.0.102|
 |worker-3|192.168.0.103|
 
+## 環境の立ち上げ  
+VMはすでにHyper-Vに登録されています。デスクトップ上にハンズオンに必要なVMを起動させるためのスクリプトを用意していますので、スクリプトをダブルクリックして実行します。  
 
-## VMへのログインと確認   
-puttyやTeraterm等でSSH接続が可能です。また、立ち上げ時につかったGitBashの画面上で `vagrant ssh master` とすることで接続できます。
+- k8sハンズオン環境起動.ps1  
+  - 少し時間がかかります。 
+![](../../img/2021-10-01_11h57_09.png)  
+
+デスクトップ上にある*Hyper-V Manager*のショートカットを開き、**docker_almalinux_default_**で始めるVMが起動していることを確認します。  
+![](../../img/2021-10-01_12h02_44.png)  
+
+
+## VMへのログインと確認  
+puttyやTeraterm等でSSH接続が可能です。今回はTeratermで接続します。
 
 |||
 |:-|:-|
@@ -120,13 +105,9 @@ puttyやTeraterm等でSSH接続が可能です。また、立ち上げ時につ�
 |user|vagrant|
 |password|vagrant|
 
-sudoでパスワードを求められた場合もパスワードは **vagrant** です。  
+sudoでパスワードを求められた場合もパスワードは **vagrant** です。
 
-### "vagrant ssh master"によるSSH接続について
-`vagrant ssh master`を使ったSSH接続を行う場合、`vagrant up`を実行したディレクトリに移動して実行する必要があります。  
-具体的には GitBash上で、`cd /c/vm/docker-k8s-training/hyper-v/k8s` に移動してから実行してください。
-
-
+ 
 
 ## KubectlからKubernetesクラスタを確認してみる
 まずは最初にKubectlを使って、Kubernetesクラスタを確認してみます。  

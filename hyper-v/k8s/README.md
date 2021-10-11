@@ -321,7 +321,7 @@ Kubernetesではマニフェストというファイルを作成し、それをK
 
 ### Nginx のPodを起動するマニフェストを書いてみる  
 下記のファイルをvi やvim などで作成してみてください。  
-エディタが必要であれば、 `dnf install {エディタ名}` でインストールしていただいてもOKです。  
+エディタが必要であれば、 `dnf install {エディタ名}` でインストールしていただいても問題ありません。  
 
 - ファイル名: nginx_pod.yaml  
 ```
@@ -476,7 +476,7 @@ Commercial support is available at
 / #
 ```
 
-`exit` でshから抜けます。その時、同時に一時的に作成した別のPodは削除されます。これはPod実行時に *--rm* を付与したためです。  
+`exit` でshを終了します。その時、同時に一時的に作成した別のPodは削除されます。これはPod実行時に *--rm* を付与したためです。  
 
 ```
 / # exit
@@ -487,7 +487,7 @@ pod "busybox" deleted
 
 ### マニフェストを使ったPodの削除  
 マニフェストを使って作ったオブジェクトはマニフェストを使って削除することができます。  
-*kubectl delete -f {manifest_file}`*で削除されます。
+*kubectl delete -f {manifest_file}* で削除されます。
 
 `kubectl delete -f nginx_pod.yaml`  
 
